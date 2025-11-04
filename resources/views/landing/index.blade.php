@@ -37,9 +37,11 @@
                     <h3 class="text-2xl font-semibold mb-2">{{ $pelicula->titulo }}</h3>
                     <p class="text-sm text-purple-300 mb-2">{{ $pelicula->genero }} • {{ $pelicula->duracion }} min</p>
                     <p class="text-sm mb-3 text-gray-200">{{ Str::limit($pelicula->sinopsis, 120) }}</p>
-                    <a href="#" class="bg-yellow-400 text-purple-900 px-4 py-2 rounded-md font-semibold hover:bg-yellow-500">
+                    <a href="{{ auth()->check() ? route('cartelera') : route('login') }}" 
+                        class="bg-yellow-400 text-purple-900 px-4 py-2 rounded-md font-semibold hover:bg-yellow-500">
                         Comprar entradas
                     </a>
+
                 </div>
             </div>
         @empty
