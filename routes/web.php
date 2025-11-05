@@ -22,9 +22,9 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('peliculas', PeliculaController::class);
-        Route::resource('funciones', FuncionController::class);
+        Route::resource('funciones', FuncionController::class)->parameters(['funciones' => 'funcion']);
         Route::resource('salas', SalaController::class);
-        Route::resource('usuarios', UsuarioController::class);
+        Route::resource('usuarios', UsuarioController::class)->parameters(['usuarios' => 'user']);
         Route::get('/configuracion', [ConfigController::class, 'index'])->name('configuracion');
     });
 

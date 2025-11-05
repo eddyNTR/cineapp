@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role', // Agregamos el rol para identificar si es admin, cliente, etc.
     ];
 
     /**

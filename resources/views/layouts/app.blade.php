@@ -25,7 +25,6 @@
                 <a href="{{ route('salas.index') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('salas.*') ? 'bg-purple-700' : '' }}">Salas</a>
                 <a href="{{ route('usuarios.index') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('usuarios.*') ? 'bg-purple-700' : '' }}">Usuarios</a>
                 <a href="{{ route('profile.edit') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('profile.*') ? 'bg-purple-700' : '' }}">Perfil</a>
-                <a href="#" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md">Configuración</a>
             </nav>
 
             <!-- Rol del usuario -->

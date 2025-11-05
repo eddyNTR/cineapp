@@ -11,8 +11,10 @@ class Funcion extends Model
 
     protected $fillable = [
         'pelicula_id',
-        'hora_inicio',
-        'hora_fin',
+        'sala_id',
+        'fecha',
+        'hora',
+        'precio',
     ];
 
     public function sala()

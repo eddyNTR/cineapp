@@ -51,8 +51,23 @@ class PeliculaController extends Controller
     }
 
     public function destroy(Pelicula $pelicula)
-    {
-        $pelicula->delete();
-        return redirect()->route('peliculas.index')->with('success', 'Película eliminada.');
+{
+    // Verificar si la película tiene funciones asociadas
+    if ($pelicula->funciones()->exists()) {
+        return redirect()->route('peliculas.index')
+                         ->with('error', 'No se puede eliminar la película, ya que tiene funciones asociadas.');
     }
+
+    // Verificar si la película tiene ventas asociadas
+    if ($pelicula->ventas()->exists()) {
+        return redirect()->route('peliculas.index')
+                         ->with('error', 'No se puede eliminar la película, ya que tiene ventas asociadas.');
+    }
+
+    // Si no hay funciones ni ventas asociadas, proceder con la eliminación
+    $pelicula->delete();
+
+    return redirect()->route('peliculas.index')->with('success', 'Película eliminada con éxito.');
+}
+
 }

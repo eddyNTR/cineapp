@@ -12,7 +12,11 @@ class SalaController extends Controller
      */
     public function index()
     {
-        //
+        // Obtener todas las salas
+        $salas = Sala::all();
+        
+        // Retornar vista con las salas
+        return view('salas.index', compact('salas'));
     }
 
     /**
@@ -20,7 +24,8 @@ class SalaController extends Controller
      */
     public function create()
     {
-        //
+        // Retornar la vista de creación de salas
+        return view('salas.create');
     }
 
     /**
@@ -28,7 +33,16 @@ class SalaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'capacidad' => 'required|integer',
+            'tipo' => 'required|string',
+        ]);
+
+        // Crear una nueva sala
+        Sala::create($request->all());
+
+        return redirect()->route('salas.index')->with('success', 'Sala creada con éxito.');
     }
 
     /**
@@ -36,7 +50,8 @@ class SalaController extends Controller
      */
     public function show(Sala $sala)
     {
-        //
+        // Mostrar detalles de una sala
+        return view('salas.show', compact('sala'));
     }
 
     /**
@@ -44,7 +59,8 @@ class SalaController extends Controller
      */
     public function edit(Sala $sala)
     {
-        //
+        // Mostrar formulario de edición de una sala
+        return view('salas.edit', compact('sala'));
     }
 
     /**
@@ -52,7 +68,16 @@ class SalaController extends Controller
      */
     public function update(Request $request, Sala $sala)
     {
-        //
+        $request->validate([
+            'nombre' => 'required|string|max:255',
+            'capacidad' => 'required|integer',
+            'tipo' => 'required|string',
+        ]);
+
+        // Actualizar la sala con los nuevos datos
+        $sala->update($request->all());
+
+        return redirect()->route('salas.index')->with('success', 'Sala actualizada con éxito.');
     }
 
     /**
@@ -60,6 +85,15 @@ class SalaController extends Controller
      */
     public function destroy(Sala $sala)
     {
-        //
+        // Verificar si la sala tiene funciones asociadas
+        if ($sala->funciones()->count() > 0) {
+            return redirect()->route('salas.index')
+                           ->with('error', 'No se puede eliminar la sala porque tiene funciones asociadas. Elimine primero las funciones.');
+        }
+
+        // Si no tiene funciones, proceder con la eliminación
+        $sala->delete();
+
+        return redirect()->route('salas.index')->with('success', 'Sala eliminada con éxito.');
     }
 }

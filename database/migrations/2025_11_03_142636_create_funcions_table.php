@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('funcions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pelicula_id')->constrained();
-            $table->foreignId('sala_id')->constrained();
+            $table->foreignId('pelicula_id')->constrained()->onDelete('cascade');
+            $table->foreignId('sala_id')->constrained()->onDelete('cascade');
             $table->date('fecha');
             $table->time('hora');
             $table->decimal('precio', 8, 2);

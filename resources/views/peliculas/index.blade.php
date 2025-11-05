@@ -4,6 +4,18 @@
 
         <a href="{{ route('peliculas.create') }}" class="bg-purple-700 text-white px-4 py-2 rounded mb-4 inline-block">+ Nueva Película</a>
 
+        @if(session('error'))
+            <div class="bg-red-500 text-white p-4 rounded-md mb-4">
+                {{ session('error') }}
+            </div>
+        @endif
+
+        @if(session('success'))
+            <div class="bg-green-500 text-white p-4 rounded-md mb-4">
+                {{ session('success') }}
+            </div>
+        @endif
+
         <table class="w-full border-collapse">
             <thead>
                 <tr class="bg-purple-200 text-purple-900">
@@ -29,7 +41,8 @@
                         </td>
                         <td>
                             <a href="{{ route('peliculas.edit', $pelicula) }}" class="text-blue-600 hover:underline">Editar</a> |
-                            <form action="{{ route('peliculas.destroy', $pelicula) }}" method="POST" class="inline">
+                            <!-- Eliminar con confirmación -->
+                            <form action="{{ route('peliculas.destroy', $pelicula) }}" method="POST" class="inline" onsubmit="return confirmDelete()">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-red-600 hover:underline">Eliminar</button>
@@ -40,4 +53,11 @@
             </tbody>
         </table>
     </div>
+
+    <script>
+        // Confirmación de eliminación
+        function confirmDelete() {
+            return confirm("¿Estás seguro de que quieres eliminar esta película? Si tiene funciones o ventas asociadas, no podrás eliminarla.");
+        }
+    </script>
 </x-app-layout>
