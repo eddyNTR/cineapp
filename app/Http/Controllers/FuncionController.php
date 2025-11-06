@@ -6,6 +6,7 @@ use App\Models\Funcion;
 use App\Models\Sala;
 use App\Models\Pelicula;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class FuncionController extends Controller
 {
@@ -37,15 +38,16 @@ class FuncionController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    // Validar la entrada
-    $request->validate([
-        'pelicula_id' => 'required|exists:peliculas,id',
-        'sala_id' => 'required|exists:salas,id',
-        'fecha' => 'required|date',
-        'hora' => 'required|date_format:H:i',
-        'precio' => 'required|numeric',
-    ]);
+    {
+        // Validar la entrada
+        $request->validate([
+            'pelicula_id' => 'required|exists:peliculas,id',
+            'sala_id' => 'required|exists:salas,id',
+            'fecha' => 'required|date',
+            // aceptar hora en formato H:i o H:i:s (segundos opcionales)
+            'hora' => ['required','regex:/^([01]\\d|2[0-3]):[0-5]\\d(:[0-5]\\d)?$/'],
+            'precio' => 'required|numeric',
+        ]);
 
     // Crear una nueva función
     Funcion::create([
@@ -89,12 +91,19 @@ class FuncionController extends Controller
             'pelicula_id' => 'required|exists:peliculas,id',
             'sala_id' => 'required|exists:salas,id',
             'fecha' => 'required|date',
-            'hora' => 'required|date_format:H:i',
+            // aceptar hora en formato H:i o H:i:s (segundos opcionales)
+            'hora' => ['required','regex:/^([01]\\d|2[0-3]):[0-5]\\d(:[0-5]\\d)?$/'],
             'precio' => 'required|numeric',
         ]);
 
+        // Log antes de actualizar
+        Log::info('FuncionController@update - datos recibidos', ['id' => $funcion->id, 'input' => $request->only(['pelicula_id','sala_id','fecha','hora','precio'])]);
+
         // Actualizar la función con los nuevos datos
-        $funcion->update($request->all());
+        $updated = $funcion->update($request->only(['pelicula_id','sala_id','fecha','hora','precio']));
+
+        // Log resultado de la actualización
+        Log::info('FuncionController@update - resultado', ['id' => $funcion->id, 'updated' => $updated, 'after' => $funcion->fresh()->only(['pelicula_id','sala_id','fecha','hora','precio'])]);
 
         return redirect()->route('funciones.index')->with('success', 'Función actualizada con éxito.');
     }

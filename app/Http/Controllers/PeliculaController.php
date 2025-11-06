@@ -58,11 +58,11 @@ class PeliculaController extends Controller
                          ->with('error', 'No se puede eliminar la película, ya que tiene funciones asociadas.');
     }
 
-    // Verificar si la película tiene ventas asociadas
+    /* // Verificar si la película tiene ventas asociadas
     if ($pelicula->ventas()->exists()) {
         return redirect()->route('peliculas.index')
                          ->with('error', 'No se puede eliminar la película, ya que tiene ventas asociadas.');
-    }
+    } */
 
     // Si no hay funciones ni ventas asociadas, proceder con la eliminación
     $pelicula->delete();
