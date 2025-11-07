@@ -2,7 +2,8 @@
 
 @section('content')
     <div class="max-w-7xl mx-auto p-6 sm:px-6 lg:px-8">
-        <h2 class="text-3xl text-white font-semibold mb-6">Cartelera de Películas</h2>
+        <h2 class="text-3xl text-white font-semibold mb-6">Cartelera de Películas
+        </h2>
 
         <div class="grid grid-cols-1 gap-6">
     @foreach($peliculas as $pelicula)
@@ -47,7 +48,7 @@
     @if($peliculas->isEmpty())
         <p class="text-white text-center w-full">No hay películas disponibles en la cartelera.</p>
     @endif
-</div>
+            </div>
 
     </div>
 @endsection

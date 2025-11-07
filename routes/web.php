@@ -28,9 +28,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/configuracion', [ConfigController::class, 'index'])->name('configuracion');
     });
 
-    // 💵 Módulo de ventas (solo cajeros)
-    Route::middleware('role:cajero')->group(function () {
-        Route::resource('ventas', VentaController::class);
+    // 💵 Módulo de ventas (cajeros y administradores)
+    Route::middleware('role:cajero|admin')->group(function () {
+        Route::resource('reservas', VentaController::class)->parameters(['reservas' => 'reserva']);
     });
 
     // 🎟️ Módulo de reservas (solo clientes)

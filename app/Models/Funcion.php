@@ -28,9 +28,6 @@ class Funcion extends Model
         return $this->belongsTo(Pelicula::class);
     }
     // En el modelo Funcion
-public function asientos()
-{
-    return $this->hasMany(Asiento::class);
-}
+
 
 }

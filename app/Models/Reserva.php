@@ -6,9 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Reserva extends Model
 {
-    public function asientos()
+    
+    // Relación: una reserva pertenece a un usuario
+    public function usuario()
     {
-    return $this->hasMany(Asiento::class);
+        return $this->belongsTo(User::class, 'usuario_id');
+    }
+
+    // Relación: una reserva pertenece a una función
+    public function funcion()
+    {
+        return $this->belongsTo(Funcion::class, 'funcion_id');
     }
 
 }

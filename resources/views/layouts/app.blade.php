@@ -21,7 +21,7 @@
                 <a href="{{ route('dashboard') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('dashboard') ? 'bg-purple-700' : '' }}">Dashboard</a>
                 <a href="{{ route('peliculas.index') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('peliculas.*') ? 'bg-purple-700' : '' }}">Películas</a>
                 <a href="{{ route('funciones.index') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('funciones.*') ? 'bg-purple-700' : '' }}">Funciones</a>
-                <a href="{{ route('ventas.index') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('ventas.*') ? 'bg-purple-700' : '' }}">Ventas</a>
+                <a href="{{ route('reservas.index') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('reservas.*') ? 'bg-purple-700' : '' }}">Reservas</a>
                 <a href="{{ route('salas.index') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('salas.*') ? 'bg-purple-700' : '' }}">Salas</a>
                 <a href="{{ route('usuarios.index') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('usuarios.*') ? 'bg-purple-700' : '' }}">Usuarios</a>
                 <a href="{{ route('profile.edit') }}" class="font-bold hover:bg-purple-700 px-4 py-2 rounded-md {{ request()->routeIs('profile.*') ? 'bg-purple-700' : '' }}">Perfil</a>

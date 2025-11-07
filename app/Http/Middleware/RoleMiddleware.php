@@ -10,7 +10,10 @@ class RoleMiddleware
 {
     public function handle(Request $request, Closure $next, $role)
     {
-        if (!Auth::check() || Auth::user()->role !== $role) {
+        // Allow multiple roles separated by '|' or ',' (e.g. 'admin|cajero')
+        $allowed = preg_split('/[|,]/', $role);
+
+        if (! Auth::check() || ! in_array(Auth::user()->role, $allowed, true)) {
             return redirect('/');
         }
 

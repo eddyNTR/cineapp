@@ -52,10 +52,9 @@
                     <div class="space-y-4">
                         @foreach($pelicula->funciones as $funcion)
                             <div class="bg-purple-100 p-4 rounded-md">
-                                <p class="text-purple-800 font-semibold">Horario: {{ $funcion->fecha }} - {{ $funcion->hora }}</p>
+                                <p class="text-purple-800 font-semibold">Horario: {{ $funcion->fecha }} - {{ $funcion->hora }} - {{ $funcion->sala->nombre }} - {{ $funcion->sala->tipo }}</p>
                                 <p class="text-gray-500 mb-4">{{ $funcion->precio }} Bs</p>
                                 <a href="{{ route('asiento', ['funcion' => $funcion->id]) }}" class="w-full text-center bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition">Continuar</a>
-
                             </div>
                         @endforeach
                     </div>

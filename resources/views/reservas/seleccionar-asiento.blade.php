@@ -80,32 +80,5 @@
             </div>
         </main>
     </div>
-
-    <script>
-        let asientosSeleccionados = [];
-
-        // Función para seleccionar un asiento
-        function selectAsiento(id) {
-            const btn = document.querySelector(`[onclick="selectAsiento(${id});"]`);
-            
-            if (asientosSeleccionados.includes(id)) {
-                // Si ya está seleccionado, desmarcarlo
-                asientosSeleccionados = asientosSeleccionados.filter(item => item !== id);
-                btn.classList.remove('bg-red-500');
-                btn.classList.add('bg-green-500');
-            } else {
-                // Marcar el asiento como seleccionado
-                asientosSeleccionados.push(id);
-                btn.classList.remove('bg-green-500');
-                btn.classList.add('bg-red-500');
-            }
-
-            // Habilitar el botón de confirmación si hay al menos un asiento seleccionado
-            document.querySelector('[type="submit"]').disabled = asientosSeleccionados.length === 0;
-
-            // Actualizar el valor oculto de los asientos seleccionados en el formulario
-            document.getElementById('total').value = asientosSeleccionados.length; // actualizar total
-        }
-    </script>
 </body>
 </html>
