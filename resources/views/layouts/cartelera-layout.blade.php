@@ -6,19 +6,21 @@
     <title>{{ config('app.name', 'CineApp') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-purple-900 font-sans antialiased">
+<body class="font-sans antialiased" style="background-image: url('{{ asset('storage/ciene-app.png') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
 
     <div class="flex flex-col min-h-screen">
         <!-- Menú Principal para el Cliente -->
-        <header class="bg-purple-900 text-white p-4">
+        <header class="bg-custom-purple text-white p-4">
             <div class="max-w-7xl mx-auto flex justify-between">
+                <div class="flex items-center">
                 <a href="{{ route('landing') }}">
-                    <x-application-logo class="block h-10 w-auto fill-current text-gray-200" />
+                    <img src="{{ asset('storage/palomitas-de-maiz.png') }}" alt="CineApp Icono" class="w-8 h-8 mr-2">
                 </a>
+                <h1 class="text-[24px] font-bold">CineApp</h1>
+                </div>
 
                 <nav class="space-x-4">
                     <a href="{{ route('cartelera') }}" class="text-lg">Cartelera</a>
-                    <a href="{{ route('profile.edit') }}" class="text-lg">Mi Perfil</a>
                     <a class="font-semibold">Bienvenido, {{ Auth::user()->name }}</a> <!-- Nombre del usuario -->
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
@@ -31,13 +33,13 @@
         <!-- Contenido de la Cartelera -->
         <main class="flex-1 p-6">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-3xl text-white font-semibold mb-6">Cartelera de Películas</h2>
+                <h2 class="text-3xl text-black font-semibold mb-6">Cartelera de Películas</h2>
 
                 @foreach($peliculas as $pelicula)
-                    <div class="bg-white rounded-lg shadow-lg p-4 mb-6">
+                    <div class="bg-custom-purple/70 backdrop-blur-sm rounded-lg shadow-lg p-4 mb-6">
                         <div class="flex">
                             @if($pelicula->imagen)
-                                <img src="{{ asset('storage/'.$pelicula->imagen) }}" alt="{{ $pelicula->titulo }}" class="w-32 h-48 object-cover rounded-lg mr-6">
+                                <img src="{{ asset('storage/'.$pelicula->imagen) }}" alt="{{ $pelicula->titulo }}" class="w-[300px] h-[450px] object-cover rounded-lg mr-6">
                             @else
                                 <div class="w-32 h-48 bg-gray-300 rounded-lg mr-6 flex items-center justify-center text-white">Sin Imagen</div>
                             @endif

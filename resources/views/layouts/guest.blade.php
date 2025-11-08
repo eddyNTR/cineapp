@@ -14,16 +14,17 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-                </a>
-            </div>
+    <body class="font-sans antialiased" style="background-image: url('{{ asset('storage/ciene-app.png') }}'); background-size: cover; background-repeat: no-repeat; background-position: center; background-attachment: fixed;">
+        <div class="min-h-screen flex items-center justify-center px-4 py-10">
+            <div class="w-full max-w-md mx-auto">
+                <div class="bg-[rgba(20,6,29,0.6)] backdrop-blur-sm rounded-2xl shadow-2xl p-8 text-white">
+                    <div class="flex flex-col items-center mb-6">
+                        <img src="{{ asset('storage/palomitas-de-maiz.png') }}" alt="logo" class="w-12 h-12 mb-2">
+                        <h1 class="text-2xl font-semibold">CineApp</h1>
+                    </div>
 
-            <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
-                {{ $slot }}
+                    {{ $slot }}
+                </div>
             </div>
         </div>
     </body>

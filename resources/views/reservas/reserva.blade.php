@@ -6,18 +6,21 @@
     <title>Reserva de Entradas - {{ $pelicula->titulo }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-purple-900 font-sans antialiased">
+<body class="bg-purple-900 font-sans antialiased" style="background-image: url('{{ asset('storage/ciene-app.png') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
 
     <div class="flex flex-col min-h-screen">
         <!-- Menú Principal para el Cliente -->
-        <header class="bg-purple-900 text-white p-4">
+        <header class="bg-custom-purple text-white p-4">
             <div class="max-w-7xl mx-auto flex justify-between">
-                <a href="{{ route('cartelera') }}">
-                    <x-application-logo class="block h-10 w-auto fill-current text-gray-200" />
+                <div class="flex items-center">
+                <a href="{{ route('landing') }}">
+                    <img src="{{ asset('storage/palomitas-de-maiz.png') }}" alt="CineApp Icono" class="w-8 h-8 mr-2">
                 </a>
+                <h1 class="text-[24px] font-bold">CineApp</h1>
+                </div>
                 <nav class="space-x-4">
                     <a href="{{ route('cartelera') }}" class="text-lg">Cartelera</a>
-                    <a href="{{ route('profile.edit') }}" class="text-lg">Mi Perfil</a>
+                    <a class="font-semibold">Bienvenido, {{ Auth::user()->name }}</a> <!-- Nombre del usuario -->
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button type="submit" class="text-lg text-white bg-red-600 p-2 rounded-md">Cerrar sesión</button>
@@ -30,15 +33,15 @@
         <main class="flex-1 p-6">
             <div class="max-w-7xl mx-auto">
                 <!-- Mostrar la información de la película -->
-                <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div class="bg-custom-purple/70 backdrop-blur-sm rounded-lg shadow-lg p-6 mb-6">
                     <div class="flex mb-6">
                         <!-- Imagen de la película -->
                         <img src="{{ asset('storage/'.$pelicula->imagen) }}" alt="{{ $pelicula->titulo }}" class="w-48 h-72 object-cover rounded-lg mr-6">
                         <div class="flex-1">
-                            <h2 class="text-3xl font-bold text-gray-900">{{ $pelicula->titulo }}</h2>
-                            <p class="text-sm text-gray-600">{{ $pelicula->genero }} • {{ $pelicula->duracion }} min</p>
-                            <p class="text-gray-500 mt-2">{{ $pelicula->sinopsis }}</p>
-                            <p class="text-green-500 mt-2">Para todo público</p>
+                            <h2 class="text-[36px] font-bold text-white">{{ $pelicula->titulo }}</h2>
+                            <p class="text-[24px] text-gray-300">{{ $pelicula->genero }} • {{ $pelicula->duracion }} min</p>
+                            <p class="text-gray-200 mt-2 text-[24px]">{{ $pelicula->sinopsis }}</p>
+                            <p class="text-green-400 mt-2">Para todo público</p>
                         </div>
                     </div>
 
@@ -48,12 +51,12 @@
                     </div>
 
                     <!-- Mostrar horarios de funciones -->
-                    <h3 class="text-2xl text-gray-800 font-semibold mb-4">Horarios disponibles</h3>
+                    <h3 class="text-2xl text-gray-200 font-semibold mb-4">Horarios disponibles</h3>
                     <div class="space-y-4">
                         @foreach($pelicula->funciones as $funcion)
                             <div class="bg-purple-100 p-4 rounded-md">
-                                <p class="text-purple-800 font-semibold">Horario: {{ $funcion->fecha }} - {{ $funcion->hora }} - {{ $funcion->sala->nombre }} - {{ $funcion->sala->tipo }}</p>
-                                <p class="text-gray-500 mb-4">{{ $funcion->precio }} Bs</p>
+                                <p class="text-purple-800 font-semibold text-[17px]">Horario: {{ $funcion->fecha }} - {{ $funcion->hora }} - {{ $funcion->sala->nombre }} - {{ $funcion->sala->tipo }}</p>
+                                <p class="text-gray-500 mb-4 text-[17px]">{{ $funcion->precio }} Bs</p>
                                 <a href="{{ route('asiento', ['funcion' => $funcion->id]) }}" class="w-full text-center bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition">Continuar</a>
                             </div>
                         @endforeach

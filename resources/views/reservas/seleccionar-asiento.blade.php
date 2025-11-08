@@ -6,18 +6,22 @@
     <title>{{ config('app.name', 'CineApp') }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-purple-900 font-sans antialiased">
+<body class=" font-sans antialiased" style="background-image: url('{{ asset('storage/ciene-app.png') }}'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed;">
 
     <div class="flex flex-col min-h-screen">
         <!-- Menú Principal -->
-        <header class="bg-purple-900 text-white p-4">
+        <header class="bg-custom-purple text-white p-4">
             <div class="max-w-7xl mx-auto flex justify-between">
-                <a href="{{ route('cartelera') }}">
-                    <x-application-logo class="block h-10 w-auto fill-current text-gray-200" />
+                <div class="flex items-center">
+                <a href="{{ route('landing') }}">
+                    <img src="{{ asset('storage/palomitas-de-maiz.png') }}" alt="CineApp Icono" class="w-8 h-8 mr-2">
                 </a>
+                <h1 class="text-[24px] font-bold">CineApp</h1>
+                </div>
 
                 <nav class="space-x-4">
                     <a href="{{ route('cartelera') }}" class="text-lg">Cartelera</a>
+                    <a class="font-semibold">Bienvenido, {{ Auth::user()->name }}</a> <!-- Nombre del usuario -->
                     <form method="POST" action="{{ route('logout') }}" class="inline">
                         @csrf
                         <button type="submit" class="text-lg text-white bg-red-600 p-2 rounded-md">Cerrar sesión</button>
@@ -29,14 +33,14 @@
         <!-- Contenido de la Selección de Asientos -->
         <main class="flex-1 p-6">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-3xl text-white font-semibold mb-6">Selecciona tu asiento</h2>
+                <h2 class="text-[36px] text-white text-center font-semibold mb-6 bg-custom-purple p-2">Selecciona tu asiento</h2>
 
                 <!-- Información de la película -->
-                <div class="bg-white p-6 rounded-lg shadow-lg mb-6">
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $funcion->pelicula->titulo }}</h3>
-                    <p class="text-sm text-gray-600">{{ $funcion->pelicula->genero }} • {{ $funcion->pelicula->duracion }} min</p>
-                    <p class="text-gray-500 mt-2">{{ $funcion->pelicula->sinopsis }}</p>
-                    <p class="text-lg font-semibold text-purple-700 mt-2">Precio por boleto: ${{ number_format($funcion->precio, 2) }}</p>
+                <div class="bg-custom-purple/70 backdrop-blur-sm p-6 rounded-lg shadow-lg mb-6">
+                    <h3 class="text-[36px] font-bold text-gray-200">{{ $funcion->pelicula->titulo }}</h3>
+                    <p class="text-[24px] text-gray-200">{{ $funcion->pelicula->genero }} • {{ $funcion->pelicula->duracion }} min</p>
+                    <p class="text-gray-200 mt-2 text-[24px]">{{ $funcion->pelicula->sinopsis }}</p>
+                    <p class="text-lg font-semibold text-purple-200 mt-2">Precio por boleto: ${{ number_format($funcion->precio, 2) }}</p>
 
                     <!-- Mostrar la imagen de la película -->
                     @if($funcion->pelicula->imagen)
@@ -47,8 +51,8 @@
                 </div>
 
                 <!-- Selección de Asientos -->
-                <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Selecciona tus asientos</h3>
+                <div class="bg-custom-purple/30 backdrop-blur-sm p-6 rounded-lg shadow-lg">
+                    <h3 class="text-[24px] font-bold text-gray-200 mb-4">Selecciona tus asientos</h3>
 
                     <div class="mb-6 text-center">
                         <div class="w-3/4 h-12 bg-gray-800 text-white text-center py-3 mx-auto mb-8 rounded">PANTALLA</div>
@@ -74,7 +78,7 @@
                         <!-- Los asientos se generarán aquí por JavaScript -->
                     </div>
 
-                    <div class="bg-gray-100 p-4 rounded-lg mb-8">
+                    <div class="bg-gray-300 p-4 rounded-lg mb-8">
                         <h4 class="font-semibold mb-2">Asientos Seleccionados</h4>
                         <div id="asientos-seleccionados" class="text-lg mb-2">Ninguno</div>
                         <div class="flex gap-4">
@@ -98,7 +102,7 @@
                         <input type="hidden" name="cantidad_boletos" id="cantidad-input">
                         <input type="hidden" name="total" id="total-input">
                         <div class="mb-4">
-                            <label for="pago" class="block text-sm font-medium text-gray-700 mb-2">Método de pago</label>
+                            <label for="pago" class="block text-sm font-medium text-gray-200 mb-2">Método de pago</label>
                             <select name="pago" id="pago" class="w-full border-gray-300 rounded-md shadow-sm focus:border-purple-500 focus:ring-purple-500" required>
                                 <option value="efectivo">Efectivo</option>
                                 <option value="tarjeta">Tarjeta</option>
@@ -125,7 +129,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border: 2px solid #4B5563;
+            border: 2px solid #084191;
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.875rem;
