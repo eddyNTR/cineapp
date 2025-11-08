@@ -36,6 +36,7 @@
                     <h3 class="text-2xl font-bold text-gray-900">{{ $funcion->pelicula->titulo }}</h3>
                     <p class="text-sm text-gray-600">{{ $funcion->pelicula->genero }} • {{ $funcion->pelicula->duracion }} min</p>
                     <p class="text-gray-500 mt-2">{{ $funcion->pelicula->sinopsis }}</p>
+                    <p class="text-lg font-semibold text-purple-700 mt-2">Precio por boleto: ${{ number_format($funcion->precio, 2) }}</p>
 
                     <!-- Mostrar la imagen de la película -->
                     @if($funcion->pelicula->imagen)
@@ -47,38 +48,208 @@
 
                 <!-- Selección de Asientos -->
                 <div class="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 class="text-xl font-bold text-gray-900 mb-4">Selecciona un asiento</h3>
+                    <h3 class="text-xl font-bold text-gray-900 mb-4">Selecciona tus asientos</h3>
 
-                    <!-- Formulario de selección de asiento -->
-                    <form method="POST" action="{{ route('reservar.store') }}">
+                    <div class="mb-6 text-center">
+                        <div class="w-3/4 h-12 bg-gray-800 text-white text-center py-3 mx-auto mb-8 rounded">PANTALLA</div>
+                    </div>
+
+                    <!-- Leyenda de asientos -->
+                    <div class="flex justify-center gap-6 mb-4">
+                        <div class="flex items-center">
+                            <div class="asiento w-6 h-6 mr-2 border-2 border-gray-500"></div>
+                            <span class="text-sm">Disponible</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="asiento w-6 h-6 mr-2 ocupado"></div>
+                            <span class="text-sm">Vendido</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="asiento w-6 h-6 mr-2 seleccionado"></div>
+                            <span class="text-sm">Seleccionado</span>
+                        </div>
+                    </div>
+
+                    <div id="sala-asientos" class="mb-8">
+                        <!-- Los asientos se generarán aquí por JavaScript -->
+                    </div>
+
+                    <div class="bg-gray-100 p-4 rounded-lg mb-8">
+                        <h4 class="font-semibold mb-2">Asientos Seleccionados</h4>
+                        <div id="asientos-seleccionados" class="text-lg mb-2">Ninguno</div>
+                        <div class="flex gap-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Cantidad de boletos</label>
+                                <div id="cantidad-boletos" class="text-lg">0</div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Total a pagar</label>
+                                <div id="total-pagar" class="text-lg">$0.00</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formulario de venta -->
+                    <form method="POST" action="{{ route('reservar.store') }}" id="form-venta">
                         @csrf
+                        <input type="hidden" name="usuario_id" value="{{ Auth::id() }}">
                         <input type="hidden" name="funcion_id" value="{{ $funcion->id }}">
-                        <input type="hidden" name="total" id="total" value="">
-
-                        <!-- Aquí mostramos los asientos disponibles -->
-                        <div class="grid grid-cols-5 gap-2">
-                            @foreach($funcion->asientos as $asiento)
-                                <button 
-                                    type="button"
-                                    class="w-12 h-12 rounded-md {{ $asiento->estado == 'disponible' ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed' }} text-white"
-                                    {{ $asiento->estado == 'disponible' ? 'onclick="selectAsiento('.$asiento->id.');"' : '' }}
-                                    disabled="{{ $asiento->estado != 'disponible' }}"
-                                >
-                                    {{ $asiento->codigo }}
-                                </button>
-                            @endforeach
+                        <input type="hidden" name="asientos" id="asientos-input">
+                        <input type="hidden" name="cantidad_boletos" id="cantidad-input">
+                        <input type="hidden" name="total" id="total-input">
+                        <div class="mb-4">
+                            <label for="pago" class="block text-sm font-medium text-gray-700 mb-2">Método de pago</label>
+                            <select name="pago" id="pago" class="w-full border-gray-300 rounded-md shadow-sm focus:border-purple-500 focus:ring-purple-500" required>
+                                <option value="efectivo">Efectivo</option>
+                                <option value="tarjeta">Tarjeta</option>
+                            </select>
                         </div>
 
-                        <!-- Confirmar selección de asiento -->
-                        <div class="mt-6">
-                            <button id="confirmar-btn" class="w-full bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition" disabled>
-                                Confirmar Selección
-                            </button>
-                        </div>
+                        <button type="submit" 
+                                class="w-full bg-purple-700 text-white py-2 px-4 rounded-md hover:bg-purple-800 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                                id="btn-confirmar"
+                                disabled>
+                            Confirmar Compra
+                        </button>
                     </form>
                 </div>
             </div>
         </main>
     </div>
+
+    <style>
+        .asiento {
+            width: 40px;
+            height: 40px;
+            margin: 4px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #4B5563;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+        .asiento:hover:not(.ocupado) {
+            border-color: #7C3AED;
+            background-color: #EDE9FE;
+        }
+        .asiento.seleccionado {
+            background-color: #7C3AED;
+            border-color: #6D28D9;
+            color: white;
+        }
+        .asiento.ocupado {
+            background-color: #FEE2E2;
+            border-color: #EF4444;
+            cursor: not-allowed;
+            color: #B91C1C;
+        }
+        .fila {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 4px;
+        }
+        .fila-letra {
+            width: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            margin-right: 8px;
+        }
+    </style>
+
+    <script>
+        const FILAS = 5;
+        const ASIENTOS_POR_FILA = 10;
+        const LETRAS = ['A', 'B', 'C', 'D', 'E'];
+        const PRECIO_BOLETO = {{ $funcion->precio }};
+
+        // Estado
+        let asientosSeleccionados = new Set();
+        let asientosOcupados = new Set([
+            // Asientos vendidos
+            @foreach($asientosVendidos ?? [] as $asiento)
+                "{{ $asiento }}",
+            @endforeach
+        ]);
+
+        function generarAsientos() {
+            const contenedor = document.getElementById('sala-asientos');
+            
+            for (let i = 0; i < FILAS; i++) {
+                const fila = document.createElement('div');
+                fila.className = 'fila';
+                
+                // Letra de la fila
+                const letraFila = document.createElement('div');
+                letraFila.className = 'fila-letra';
+                letraFila.textContent = LETRAS[i];
+                fila.appendChild(letraFila);
+
+                // Asientos de la fila
+                for (let j = 1; j <= ASIENTOS_POR_FILA; j++) {
+                    const asiento = document.createElement('div');
+                    const idAsiento = `${LETRAS[i]}${j}`;
+                    
+                    asiento.className = 'asiento';
+                    asiento.textContent = idAsiento;
+                    asiento.dataset.asiento = idAsiento;
+                    
+                    if (asientosOcupados.has(idAsiento)) {
+                        asiento.classList.add('ocupado');
+                    } else {
+                        asiento.addEventListener('click', () => toggleAsiento(idAsiento, asiento));
+                    }
+                    
+                    fila.appendChild(asiento);
+                }
+                
+                contenedor.appendChild(fila);
+            }
+        }
+
+        function toggleAsiento(idAsiento, elemento) {
+            if (asientosOcupados.has(idAsiento)) return;
+
+            if (asientosSeleccionados.has(idAsiento)) {
+                asientosSeleccionados.delete(idAsiento);
+                elemento.classList.remove('seleccionado');
+            } else {
+                asientosSeleccionados.add(idAsiento);
+                elemento.classList.add('seleccionado');
+            }
+
+            actualizarResumen();
+        }
+
+        function actualizarResumen() {
+            const asientosArray = Array.from(asientosSeleccionados).sort();
+            const cantidad = asientosSeleccionados.size;
+            const total = cantidad * PRECIO_BOLETO;
+
+            // Actualizar display
+            document.getElementById('asientos-seleccionados').textContent = 
+                asientosArray.length > 0 ? asientosArray.join(', ') : 'Ninguno';
+            document.getElementById('cantidad-boletos').textContent = cantidad;
+            document.getElementById('total-pagar').textContent = `$${total.toFixed(2)}`;
+
+            // Actualizar inputs ocultos
+            document.getElementById('asientos-input').value = asientosArray.join(',');
+            document.getElementById('cantidad-input').value = cantidad;
+            document.getElementById('total-input').value = total;
+
+            // Habilitar/deshabilitar botón de confirmar
+            document.getElementById('btn-confirmar').disabled = cantidad === 0;
+        }
+
+        // Inicializar al cargar la página
+        document.addEventListener('DOMContentLoaded', () => {
+            generarAsientos();
+            actualizarResumen();
+        });
+    </script>
 </body>
 </html>

@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
 
     // 💵 Módulo de ventas (cajeros y administradores)
     Route::middleware('role:cajero|admin')->group(function () {
-        Route::resource('reservas', VentaController::class)->parameters(['reservas' => 'reserva']);
+        Route::resource('ventas', VentaController::class);
     });
 
     // 🎟️ Módulo de reservas (solo clientes)

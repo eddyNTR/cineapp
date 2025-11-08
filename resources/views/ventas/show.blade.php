@@ -5,6 +5,13 @@
         <div class="bg-white shadow rounded p-6">
             <p><strong>Usuario:</strong> {{ $venta->usuario->name ?? '—' }} ({{ $venta->usuario->email ?? '' }})</p>
             <p><strong>Función:</strong> {{ $venta->funcion->pelicula->titulo ?? '—' }} — {{ $venta->funcion->fecha ?? '' }} {{ $venta->funcion->hora ?? '' }}</p>
+            <p><strong>Asientos seleccionados:</strong>
+                @if(!empty($venta->asientos))
+                    <span class="font-mono text-purple-600">{{ $venta->asientos }}</span>
+                @else
+                    —
+                @endif
+            </p>
             <p><strong>Cantidad:</strong> {{ $venta->cantidad_boletos }}</p>
             <p><strong>Total:</strong> {{ number_format($venta->total, 2) }}</p>
             <p><strong>Pago:</strong> {{ ucfirst($venta->pago) }}</p>

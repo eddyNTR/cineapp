@@ -23,7 +23,7 @@ class VentaController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('reservas.index', compact('ventas', 'reservas'));
+        return view('ventas.index', compact('ventas', 'reservas'));
     }
 
     /**
@@ -35,7 +35,7 @@ class VentaController extends Controller
         $funciones = Funcion::with('pelicula')->get();
         // Obtener reservas pendientes para que puedan convertirse en ventas
         $reservas = Reserva::where('estado', 'pendiente')->with(['usuario', 'funcion.pelicula'])->get();
-        return view('reservas.create', compact('usuarios', 'funciones', 'reservas'));
+        return view('ventas.create', compact('usuarios', 'funciones', 'reservas'));
     }
 
     /**
@@ -43,69 +43,60 @@ class VentaController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->validate([
-            'reserva_id' => 'nullable|exists:reservas,id',
-            'usuario_id' => 'nullable|exists:users,id',
-            'funcion_id' => 'nullable|exists:funcions,id',
-            'cantidad_boletos' => 'required|integer|min:1',
-            'asientos' => 'required|string',
-            'total' => 'required|numeric|min:0',
-            'pago' => 'required|in:efectivo,tarjeta',
-        ]);
+        try {
+            // Validar los datos requeridos
+            $data = $request->validate([
+                'usuario_id' => 'required|exists:users,id',
+                'funcion_id' => 'required|exists:funcions,id',
+                'cantidad_boletos' => 'required|integer|min:1',
+                'asientos' => 'required|string',
+                'total' => 'required|numeric|min:0',
+                'pago' => 'required|in:efectivo,tarjeta',
+            ]);
 
-        // Si se envió reserva_id, completar usuario_id y funcion_id desde la reserva
-        if (! empty($data['reserva_id'])) {
-            $reserva = Reserva::find($data['reserva_id']);
-            if ($reserva) {
-                $data['usuario_id'] = $reserva->usuario_id;
-                $data['funcion_id'] = $reserva->funcion_id;
-                // Si no se especificaron asientos, usar el de la reserva
-                if (empty($data['asientos'])) {
-                    $data['asientos'] = $reserva->asiento;
-                }
-            }
+            // Crear la venta
+            $venta = Venta::create($data);
+            Log::info('Venta creada', ['id' => $venta->id, 'data' => $data]);
+
+            return redirect()
+                ->route('ventas.show', $venta->id)
+                ->with('success', 'Venta registrada exitosamente');
+
+        } catch (\Exception $e) {
+            Log::error('Error al crear venta', [
+                'error' => $e->getMessage(),
+                'data' => $request->all()
+            ]);
+
+            return back()
+                ->withInput()
+                ->with('error', 'Error al procesar la venta. Por favor, intente nuevamente.');
         }
-
-        // usuario_id y funcion_id son obligatorios ahora que fueron rellenados o enviados
-        if (empty($data['usuario_id']) || empty($data['funcion_id'])) {
-            return redirect()->back()->withInput()->with('error', 'Debe seleccionar una reserva válida o indicar usuario y función.');
-        }
-
-        $venta = Venta::create($data);
-        Log::info('Venta creada', ['id' => $venta->id, 'data' => $data]);
-
-        // Si se creó desde una reserva, marcarla como pagada
-        if (! empty($data['reserva_id'])) {
-            $reserva->estado = 'pagada';
-            $reserva->save();
-        }
-
-        return redirect()->route('reservas.index')->with('success', 'Reserva confirmada con éxito.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Venta $reserva)
+    public function show(Venta $venta)
     {
-        $reserva->load(['usuario', 'funcion.pelicula']);
-        return view('reservas.show', compact('reserva'));
+        $venta->load(['usuario', 'funcion.pelicula']);
+        return view('ventas.show', compact('venta'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Venta $reserva)
+    public function edit(Venta $venta)
     {
         $usuarios = User::all();
         $funciones = Funcion::with('pelicula')->get();
-        return view('reservas.edit', compact('reserva', 'usuarios', 'funciones'));
+        return view('ventas.edit', compact('venta', 'usuarios', 'funciones'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Venta $reserva)
+    public function update(Request $request, Venta $venta)
     {
         $data = $request->validate([
             'usuario_id' => 'required|exists:users,id',
@@ -116,19 +107,19 @@ class VentaController extends Controller
             'pago' => 'required|in:efectivo,tarjeta',
         ]);
 
-        $updated = $reserva->update($data);
-        Log::info('Venta actualizada', ['id' => $reserva->id, 'updated' => $updated, 'data' => $data]);
+        $updated = $venta->update($data);
+        Log::info('Venta actualizada', ['id' => $venta->id, 'updated' => $updated, 'data' => $data]);
 
-        return redirect()->route('reservas.index')->with('success', 'Reserva actualizada con éxito.');
+        return redirect()->route('ventas.index')->with('success', 'Venta actualizada con éxito.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Venta $reserva)
+    public function destroy(Venta $venta)
     {
-        $reserva->delete();
-        return redirect()->route('reservas.index')->with('success', 'Reserva eliminada con éxito.');
+        $venta->delete();
+        return redirect()->route('ventas.index')->with('success', 'Venta eliminada con éxito.');
     }
 }
 
