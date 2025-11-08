@@ -16,7 +16,7 @@
                 @endif
 
                 <div class="flex-1">
-                    <h3 class="text-2xl font-bold text-gray-900">{{ $pelicula->titulo }}</h3>
+                    <h3 class="text-2xl font-bold text-gray-200">{{ $pelicula->titulo }}</h3>
                     <p class="text-sm text-gray-600">{{ $pelicula->genero }} • {{ $pelicula->duracion }} min</p>
                     <p class="text-gray-500 mt-2">{{ $pelicula->sinopsis }}</p>
 

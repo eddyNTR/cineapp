@@ -33,7 +33,7 @@
         <!-- Contenido de la Cartelera -->
         <main class="flex-1 p-6">
             <div class="max-w-7xl mx-auto">
-                <h2 class="text-3xl text-black font-semibold mb-6">Cartelera de Películas</h2>
+                <h2 class="text-3xl text-white bg-custom-purple text-center font-semibold mb-6 py-4">Cartelera de Películas</h2>
 
                 @foreach($peliculas as $pelicula)
                     <div class="bg-custom-purple/70 backdrop-blur-sm rounded-lg shadow-lg p-4 mb-6">
@@ -45,9 +45,9 @@
                             @endif
 
                             <div class="flex-1">
-                                <h3 class="text-2xl font-bold text-gray-900">{{ $pelicula->titulo }}</h3>
-                                <p class="text-sm text-gray-600">{{ $pelicula->genero }} • {{ $pelicula->duracion }} min</p>
-                                <p class="text-gray-500 mt-2">{{ $pelicula->sinopsis }}</p>
+                                <h3 class="text-[36px] font-bold text-gray-200">{{ $pelicula->titulo }}</h3>
+                                <p class="text-[24px] text-gray-200">{{ $pelicula->genero }} • {{ $pelicula->duracion }} min</p>
+                                <p class="text-gray-200 mt-2 text-[24px]">{{ $pelicula->sinopsis }}</p>
 
                                 <!-- Mostrar las funciones de la película -->
                                 @if($pelicula->funciones->isNotEmpty())
