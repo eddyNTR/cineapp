@@ -28,7 +28,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/configuracion', [ConfigController::class, 'index'])->name('configuracion');
     });
 
-    // 💵 Módulo de ventas (cajeros y administradores)
+    // 💵 Módulo de ventas (cajeros y administradores
     Route::middleware('role:cajero|admin')->group(function () {
         Route::resource('ventas', VentaController::class);
     });
