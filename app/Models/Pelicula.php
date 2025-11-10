@@ -15,6 +15,7 @@ class Pelicula extends Model
         'duracion',
         'sinopsis',
         'imagen',
+        'trailer',
     ];
 
     // Relación con el modelo Funcion

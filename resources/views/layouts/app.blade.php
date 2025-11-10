@@ -13,7 +13,7 @@
         <aside class="w-64 bg-purple-900 text-white flex flex-col p-4">
             <!-- Logo o ícono -->
             <div class="flex items-center justify-center mb-10">
-                <div class="w-16 h-16 bg-gray-300 rounded-full"></div>
+                <img src="{{ asset('storage/palomitas-de-maiz.png') }}" alt="CineApp Icono" class="w-20 h-20 mr-2">
             </div>
 
             <!-- Menú -->

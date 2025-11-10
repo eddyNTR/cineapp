@@ -46,9 +46,11 @@
                     </div>
 
                     <!-- Trailer de YouTube -->
-                    <div class="mb-6">
-                        <iframe class="w-full h-72" src="https://www.youtube.com/embed/{{ $pelicula->trailer }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    @if($pelicula->trailer)
+                    <div class="mb-6 flex justify-center">
+                        <iframe width="800" height="500" src="https://www.youtube.com/embed/{{ $pelicula->trailer }}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                     </div>
+                    @endif
 
                     <!-- Mostrar horarios de funciones -->
                     <h3 class="text-2xl text-gray-200 font-semibold mb-4">Horarios disponibles</h3>

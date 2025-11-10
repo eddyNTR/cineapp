@@ -9,6 +9,8 @@
             <input type="number" name="duracion" placeholder="Duración (min)" class="w-full border p-2 rounded" required>
             <textarea name="sinopsis" placeholder="Sinopsis" class="w-full border p-2 rounded" required></textarea>
             <input type="file" name="imagen" class="w-full border p-2 rounded">
+            <input type="text" name="trailer" placeholder="ID del video de YouTube (ej: dQw4w9WgXcQ)" class="w-full border p-2 rounded">
+            <small class="text-gray-600">Para obtener el ID: abre el video en YouTube, el ID está en la URL después de "v=" o "embed/"</small>
             <button type="submit" class="bg-purple-700 text-white px-4 py-2 rounded">Guardar</button>
         </form>
     </div>

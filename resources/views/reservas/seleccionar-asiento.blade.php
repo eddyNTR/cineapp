@@ -134,10 +134,12 @@
             cursor: pointer;
             font-size: 0.875rem;
             transition: all 0.2s;
+            color: white;
         }
         .asiento:hover:not(.ocupado) {
             border-color: #7C3AED;
             background-color: #EDE9FE;
+            color: #7C3AED;
         }
         .asiento.seleccionado {
             background-color: #7C3AED;

@@ -7,6 +7,7 @@ use App\Models\Pelicula;
 use App\Models\User;
 use App\Models\Sala;
 use App\Models\Funcion;
+use App\Models\Venta;
 
 class DashboardController extends Controller
 {
@@ -17,8 +18,9 @@ class DashboardController extends Controller
         $usuarios = User::count();
         $salas = Sala::count();
         $funciones = Funcion::count();
+        $ventas = Venta::count();
 
         // Retornar la vista con los datos
-        return view('dashboard.index', compact('peliculas', 'usuarios', 'salas', 'funciones'));
+        return view('dashboard.index', compact('peliculas', 'usuarios', 'salas', 'funciones', 'ventas'));
     }
 }

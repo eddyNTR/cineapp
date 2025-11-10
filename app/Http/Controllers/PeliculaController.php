@@ -26,6 +26,7 @@ class PeliculaController extends Controller
             'duracion' => 'required|integer',
             'sinopsis' => 'required',
             'imagen' => 'nullable|image',
+            'trailer' => 'nullable|string',
         ]);
 
         Pelicula::create($data);
@@ -44,6 +45,7 @@ class PeliculaController extends Controller
             'genero' => 'required',
             'duracion' => 'required|integer',
             'sinopsis' => 'required',
+            'trailer' => 'nullable|string',
         ]);
 
         $pelicula->update($data);
