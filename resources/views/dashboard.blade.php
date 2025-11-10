@@ -4,13 +4,13 @@
 
         <div class="grid grid-cols-3 gap-6">
             <a href="{{ route('peliculas.index') }}" class="bg-purple-700 text-white p-6 rounded-lg shadow hover:bg-purple-800 transition">
-                🎬 Gestión de Películas
+                 Gestión de Películas
             </a>
             <a href="{{ route('usuarios.index') }}" class="bg-purple-700 text-white p-6 rounded-lg shadow hover:bg-purple-800 transition">
-                👥 Gestión de Usuarios
+                 Gestión de Usuarios
             </a>
             <a href="{{ route('salas.index') }}" class="bg-purple-700 text-white p-6 rounded-lg shadow hover:bg-purple-800 transition">
-                🏛️ Salas
+                 Salas
             </a>
         </div>
     </div>

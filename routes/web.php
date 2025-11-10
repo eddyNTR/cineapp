@@ -18,7 +18,7 @@ Route::get('/', [LandingController::class, 'index'])->name('landing');
 // Rutas protegidas por login
 Route::middleware(['auth'])->group(function () {
 
-    // 🧮 Panel del administrador
+    //  Panel del administrador
     Route::middleware('role:admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('peliculas', PeliculaController::class);
@@ -28,12 +28,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/configuracion', [ConfigController::class, 'index'])->name('configuracion');
     });
 
-    // 💵 Módulo de ventas (cajeros y administradores
+    //  Módulo de ventas (cajeros y administradores
     Route::middleware('role:cajero|admin')->group(function () {
         Route::resource('ventas', VentaController::class);
     });
 
-    // 🎟️ Módulo de reservas (solo clientes)
+    //  Módulo de reservas (solo clientes)
     Route::middleware('role:cliente')->group(function () {
         // Ruta para ver la cartelera de películas
         Route::get('/cartelera', [ReservaController::class, 'index'])->name('cartelera');

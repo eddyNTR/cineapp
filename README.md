@@ -1,59 +1,239 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CineApp
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistema de gestión de cine desarrollado con Laravel 11, que permite administrar películas, funciones, salas y ventas de boletos.
 
-## About Laravel
+## Descripción
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+CineApp es una aplicación web completa para la gestión de un cine, que incluye:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   **Gestión de películas**: CRUD completo con imágenes y trailers de YouTube
+-   **Gestión de salas**: Diferentes tipos de salas (2D, 3D, IMAX, VIP)
+-   **Gestión de funciones**: Horarios y precios por función
+-   **Sistema de reservas**: Selección interactiva de asientos
+-   **Sistema de ventas**: Registro de ventas y métodos de pago
+-   **Control de acceso por roles**: Admin, Cajero y Cliente
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## Características
 
-## Learning Laravel
+### Roles de Usuario
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+-   **Administrador**: Acceso completo a todas las funcionalidades
+-   **Cajero**: Gestión de ventas y visualización de datos
+-   **Cliente**: Acceso a cartelera y sistema de reservas
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Funcionalidades Principales
 
-## Laravel Sponsors
+-   Cartelera interactiva con información de películas
+-   Reproducción de trailers integrados de YouTube
+-   Selección visual de asientos en tiempo real
+-   Gestión de asientos ocupados y disponibles
+-   Dashboard con estadísticas del sistema
+-   Sistema de autenticación con Laravel Breeze
+-   Interfaz responsive con Tailwind CSS
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Tecnologías
 
-### Premium Partners
+-   **Backend**: Laravel 11
+-   **Frontend**: Blade, Tailwind CSS, JavaScript
+-   **Base de datos**: MySQL
+-   **Autenticación**: Laravel Breeze
+-   **Build**: Vite
+-   **PHP**: 8.2+
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Instalación
 
-## Contributing
+1. **Clonar el repositorio**
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```bash
+git clone https://github.com/eddyNTR/cineapp.git
+cd cineapp
+```
 
-## Code of Conduct
+2. **Instalar dependencias de PHP**
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```bash
+composer install
+```
 
-## Security Vulnerabilities
+3. **Instalar dependencias de Node.js**
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```bash
+npm install
+```
 
-## License
+4. **Configurar el archivo .env**
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+cp .env.example .env
+```
+
+Editar el archivo `.env` con la configuración de tu base de datos:
+
+```
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=cineapp
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+5. **Generar la clave de la aplicación**
+
+```bash
+php artisan key:generate
+```
+
+6. **Ejecutar las migraciones**
+
+```bash
+php artisan migrate
+```
+
+7. **Ejecutar los seeders (opcional)**
+
+```bash
+php artisan db:seed --class=AdminSeeder
+```
+
+Esto creará los siguientes usuarios de prueba:
+
+-   **Admin**: admin@cineapp.com / password
+-   **Cajero**: cajero@cineapp.com / password
+-   **Cliente**: cliente@cineapp.com / password
+
+8. **Crear enlace simbólico para el storage**
+
+```bash
+php artisan storage:link
+```
+
+9. **Compilar assets**
+
+```bash
+npm run dev
+```
+
+10. **Iniciar el servidor**
+
+```bash
+php artisan serve
+```
+
+La aplicación estará disponible en `http://localhost:8000`
+
+## Estructura del Proyecto
+
+```
+cineapp/
+├── app/
+│   ├── Http/
+│   │   ├── Controllers/
+│   │   │   ├── DashboardController.php
+│   │   │   ├── PeliculaController.php
+│   │   │   ├── FuncionController.php
+│   │   │   ├── SalaController.php
+│   │   │   ├── VentaController.php
+│   │   │   └── ReservaController.php
+│   │   └── Middleware/
+│   │       └── RoleMiddleware.php
+│   └── Models/
+│       ├── Pelicula.php
+│       ├── Sala.php
+│       ├── Funcion.php
+│       ├── Reserva.php
+│       ├── Venta.php
+│       └── User.php
+├── database/
+│   ├── migrations/
+│   └── seeders/
+├── resources/
+│   ├── views/
+│   │   ├── dashboard/
+│   │   ├── peliculas/
+│   │   ├── funciones/
+│   │   ├── salas/
+│   │   ├── ventas/
+│   │   ├── reservas/
+│   │   └── layouts/
+│   ├── css/
+│   └── js/
+└── routes/
+    ├── web.php
+    └── api.php
+```
+
+## Base de Datos
+
+### Tablas Principales
+
+-   **users**: Usuarios del sistema con roles
+-   **peliculas**: Información de películas (título, género, duración, sinopsis, imagen, trailer)
+-   **salas**: Salas del cine (nombre, tipo, capacidad)
+-   **funciones**: Horarios de proyección (fecha, hora, precio)
+-   **reservas**: Reservas de boletos
+-   **ventas**: Registro de ventas realizadas
+
+## Sistema de Roles
+
+El sistema implementa middleware personalizado para control de acceso:
+
+```php
+// Rutas protegidas por rol
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    // Acceso solo para administradores
+});
+
+Route::middleware(['auth', 'role:cajero'])->group(function () {
+    // Acceso solo para cajeros
+});
+
+Route::middleware(['auth', 'role:cliente'])->group(function () {
+    // Acceso solo para clientes
+});
+```
+
+## Uso
+
+### Para Administradores
+
+1. Iniciar sesión con credenciales de administrador
+2. Acceder al dashboard para ver estadísticas
+3. Gestionar películas, salas y funciones
+4. Ver reportes de ventas
+
+### Para Cajeros
+
+1. Iniciar sesión con credenciales de cajero
+2. Acceder al módulo de ventas
+3. Registrar ventas de boletos
+4. Consultar funciones disponibles
+
+### Para Clientes
+
+1. Registrarse o iniciar sesión
+2. Explorar la cartelera de películas
+3. Ver trailers y detalles de películas
+4. Seleccionar función y asientos
+5. Confirmar reserva
+
+## Personalización
+
+### Agregar Trailers de YouTube
+
+1. Ir a la película en YouTube
+2. Copiar el ID del video (parte después de `v=` en la URL)
+3. Ejemplo: `https://www.youtube.com/watch?v=dQw4w9WgXcQ` → ID: `dQw4w9WgXcQ`
+4. Pegar el ID en el campo "Trailer" al crear/editar película
+
+## Licencia
+
+Este proyecto está bajo la licencia MIT.
+
+## Autor
+
+**Eddy NTR**
+
+-   GitHub: [@eddyNTR](https://github.com/eddyNTR)
+
+---
